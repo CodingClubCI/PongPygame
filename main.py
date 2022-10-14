@@ -1,9 +1,14 @@
 import pygame
 import sys
 
+from os import path
+from os import getcwd
+
 WIDTH = 600
 HEIGHT = 600
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
+
+CWD = getcwd()
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -44,10 +49,19 @@ class Ball(pygame.sprite.Sprite):
         self.rect.left = WIDTH/2 - 5
         self.vel = 1
 
+        self.sounds = {
+            "ball_hit": pygame.mixer.Sound(path.join(CWD, "sounds/ball_hit.wav"))
+        }
+
     def update(self):
         self.rect.bottom += self.vel
         if self.rect.top <= 0:
             self.vel = -self.vel
+
+    def on_collide(self):
+        """This function handles all operations that should occur when the ball collides with something"""
+        self.sounds["ball_hit"].play()
+
 
 def main():
     # Initialize pygame sub-modules
@@ -79,6 +93,7 @@ def main():
 
         if ball.rect.colliderect(player.rect):
             ball.vel = -ball.vel
+            ball.on_collide()
 
         # Reset the screen
         DISPLAY.fill((100, 100, 100))
