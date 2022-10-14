@@ -70,7 +70,7 @@ def main():
                 if event.key in [pygame.KEYDOWN, pygame.K_q]:
                     sys.exit()
 
-        # Get pressed gets
+        # Get pressed keys
         pressedKeys = pygame.key.get_pressed()
 
         # Update player and ball positions
